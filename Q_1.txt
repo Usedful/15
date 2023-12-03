@@ -1,0 +1,117 @@
+Q.1 Write a Java Program to implement Facade Design Pattern for HomeTheater
+
+Ans ->
+
+// Subsystem - Amplifier
+class Amplifier {
+    public void on() {
+        System.out.println("Amplifier is ON");
+    }
+
+    public void off() {
+        System.out.println("Amplifier is OFF");
+    }
+
+    public void setVolume(int volume) {
+        System.out.println("Setting Amplifier volume to " + volume);
+    }
+}
+
+// Subsystem - DVDPlayer
+class DVDPlayer {
+    public void on() {
+        System.out.println("DVD Player is ON");
+    }
+
+    public void off() {
+        System.out.println("DVD Player is OFF");
+    }
+
+    public void play(String movie) {
+        System.out.println("Playing movie: " + movie);
+    }
+}
+
+// Subsystem - Projector
+class Projector {
+    public void on() {
+        System.out.println("Projector is ON");
+    }
+
+    public void off() {
+        System.out.println("Projector is OFF");
+    }
+
+    public void setInput(String input) {
+        System.out.println("Setting Projector input to " + input);
+    }
+}
+
+// Subsystem - Lights
+class Lights {
+    public void dim(int level) {
+        System.out.println("Dimming lights to level " + level);
+    }
+
+    public void on() {
+        System.out.println("Lights are ON");
+    }
+
+    public void off() {
+        System.out.println("Lights are OFF");
+    }
+}
+
+// Facade - HomeTheaterFacade
+class HomeTheaterFacade {
+    private Amplifier amplifier;
+    private DVDPlayer dvdPlayer;
+    private Projector projector;
+    private Lights lights;
+
+    public HomeTheaterFacade(Amplifier amplifier, DVDPlayer dvdPlayer, Projector projector, Lights lights) {
+        this.amplifier = amplifier;
+        this.dvdPlayer = dvdPlayer;
+        this.projector = projector;
+        this.lights = lights;
+    }
+
+    public void watchMovie(String movie) {
+        System.out.println("Get ready to watch a movie...");
+        lights.dim(5);
+        projector.on();
+        projector.setInput("DVD");
+        amplifier.on();
+        amplifier.setVolume(10);
+        dvdPlayer.on();
+        dvdPlayer.play(movie);
+    }
+
+    public void endMovie() {
+        System.out.println("Shutting down the movie theater...");
+        lights.on();
+        projector.off();
+        amplifier.off();
+        dvdPlayer.off();
+    }
+}
+
+// Client code
+public class FacadePatternExample {
+    public static void main(String[] args) {
+        // Creating subsystem objects
+        Amplifier amplifier = new Amplifier();
+        DVDPlayer dvdPlayer = new DVDPlayer();
+        Projector projector = new Projector();
+        Lights lights = new Lights();
+
+        // Creating the facade
+        HomeTheaterFacade homeTheater = new HomeTheaterFacade(amplifier, dvdPlayer, projector, lights);
+
+        // Using the facade to watch a movie
+        homeTheater.watchMovie("Inception");
+
+        // Using the facade to end the movie
+        homeTheater.endMovie();
+    }
+}

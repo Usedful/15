@@ -1,0 +1,44 @@
+Q.3 Write node js script to build Your Own Node.js Module. Use require (‘http’) 
+module is a built-in Node module that invokes the functionality of the HTTP library 
+to create a local server. Also use the export statement to make functions in your module 
+available externally. Create a new text file to contain the functions in your module 
+called, “modules.js” and add this function to return today’s date and time
+
+Ans ->
+
+1) Create a file named "modules.js" with the following content:
+
+// modules.js
+
+// Function to return today's date and time
+exports.getCurrentDateTime = function () {
+    const now = new Date();
+    const formattedDateTime = now.toLocaleString();
+    return formattedDateTime;
+};
+
+
+2) Create another file, for example, "main.js", where you will use the module:
+
+// main.js
+const http = require('http');
+const myModule = require('./modules');
+
+// Create a simple HTTP server
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    
+    // Use the function from the custom module to get the current date and time
+    const dateTime = myModule.getCurrentDateTime();
+    
+    res.end(`Current Date and Time: ${dateTime}`);
+});
+
+// Listen on port 3000
+const PORT = 3000;
+server.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+
+
+// Run the main script using : node main.js
